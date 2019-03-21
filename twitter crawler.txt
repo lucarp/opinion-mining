@@ -1,0 +1,26 @@
+curl -u '0t3xG6gptyKw0RLt1hZo14Rk9:epKTQ9kOxzHMLang2vF77IY5AoHMf9oausgneGnOHQJGswBEP5'   --data 'grant_type=client_credentials' --url 'https://api.twitter.com/oauth2/token'
+
+
+
+BEARER: AAAAAAAAAAAAAAAAAAAAAEjJagAAAAAA0UzkV1bBRIw43tlOy2kcxD1gwjI%3DckBntGor8t9SaInHwnyXqpGgciUzJ7f8FFQFNO1tDszU0p6Ds6
+
+
+
+
+
+curl --request GET --url 'https://api.twitter.com/1.1/search/tweets.json?q=Bolsonaro&result_type=recent&lang=eng&count=100' --header 'authorization: Bearer AAAAAAAAAAAAAAAAAAAAAEjJagAAAAAA0UzkV1bBRIw43tlOy2kcxD1gwjI%3DckBntGor8t9SaInHwnyXqpGgciUzJ7f8FFQFNO1tDszU0p6Ds6'
+
+
+
+with open('tweets.json', 'r') as f:
+	data=json.load(f)
+	for tweet in data['statuses']:
+		print(tweet['text'])
+
+
+
+
+curl --request GET --url 'https://api.twitter.com/1.1/search/tweets.json?q=Bolsonaro&result_type=recent&count=100000000'  --header 'authorization: Bearer AAAAAAAAAAAAAAAAAAAAAEjJagAAAAAA0UzkV1bBRIw43tlOy2kcxD1gwjI%3DckBntGor8t9SaInHwnyXqpGgciUzJ7f8FFQFNO1tDszU0p6Ds6'
+
+
+1271269 - 
