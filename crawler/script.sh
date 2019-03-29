@@ -32,7 +32,7 @@ function downloadTweets() {
 
 
 downloadTweets();
-
+/*processDownload();
 
 function processDownload() {
     const directoryPath = path.join(__dirname, 'downloads');
@@ -63,4 +63,4 @@ function processDownload() {
         });
     });
 }
-
+*/
