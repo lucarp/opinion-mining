@@ -6,7 +6,7 @@ const path = require('path');
 
 base_url = "https://api.twitter.com/1.1/search/tweets.json";
 
-next_results = '?q= abortion&result_type=recent&count=100&lang=en';
+next_results = '?q=abortion&result_type=recent&count=100&lang=en';
 
 count = 0;
 
@@ -25,8 +25,8 @@ function downloadTweets() {
     })
     .catch(error => {
         console.log(error);
-        processDownload();
-        setTimeout(function(){ downloadTweets(); }, 15 * 60 * 1000);
+        //processDownload();
+        //setTimeout(function(){ downloadTweets(); }, 15 * 60 * 1000);
     });
 }
 
