@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+
 
 const axios = require('axios');
 var fs = require('fs');
@@ -20,13 +20,14 @@ function downloadTweets() {
         fs.writeFile("downloads/" + date.getTime() + '.json', JSON.stringify(response.data), 'utf8', function() {
             next_results = response.data.search_metadata.next_results;
             console.log('Downloaded',response.data.search_metadata.count,'tweets.'); 
-            setTimeout(function(){ downloadTweets(); }, 3000);
+            //setTimeout(function(){ downloadTweets(); }, 3000);
+    	    downloadTweets();
         });
     })
     .catch(error => {
         console.log(error);
         //processDownload();
-        //setTimeout(function(){ downloadTweets(); }, 15 * 60 * 1000);
+        setTimeout(function(){ downloadTweets(); }, 15 * 60 * 1000);
     });
 }
 
