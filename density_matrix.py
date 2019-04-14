@@ -1,4 +1,5 @@
 import numpy as np
+from math import log
 
 def compute_gradient(density_matrix, projectors, term_frequencies):
 	gradient = np.zeros(density_matrix.shape)
@@ -30,28 +31,52 @@ def compute_direction(density_matrix, projectors, term_frequencies, t):
 		
 	return 2 / q_t * d_bar + t * trace_gdg / q_t * d_tild
 
-def compute_objective():
-	pass
+def compute_objective(density_matrix, projectors):
+	obj = 0
+	for i in range(len(projectors)):
+		projector = projectors[i]
+		tr = np.trace( np.dot(projector, density_matrix) )
+		if tr > 0.0:
+			obj += log( tr )
+	return obj
 
 def gqlm(projectors, term_frequencies, t = 0.5):
 	epsilon = 1e-5
 	num_epoch = 200
 	
-	num_words = len(term_frequencies)
+	num_words = projectors[0].shape[0]
 	
 	diagonal_entries = np.random.rand(num_words)
-	
 	diagonal_entries /= np.sum(diagonal_entries)
 	density_matrix = np.diag(diagonal_entries)
-		
+
+	old_obj = compute_objective(density_matrix, projectors)
+
 	i = 0	
 	stop_criterion = False	
-	while not stop_criterion:	
+	while not stop_criterion:
 		delta = t * compute_direction(density_matrix, projectors, term_frequencies, t)
 		density_matrix += delta
 		
-		stop_criterion = i > num_epoch
+		obj = compute_objective(density_matrix, projectors)
+		print(obj)
+		stop_criterion = abs(obj - old_obj) <= epsilon
+		old_obj = obj
+		
 		i +=1 
 		
 	return density_matrix
+
+if __name__ == '__main__':
+	projectors = []
+	tf = []
+	pr = np.zeros((100,100))
+
+	for i in range(10):
+		temp = np.copy(pr)
+		temp[i][i] = 1
+		projectors.append(temp)
+		tf.append(i+1)
 	
+	dm = gqlm(projectors, tf)
+	print(dm)
