@@ -5,7 +5,7 @@ import re
 from nltk.tokenize import word_tokenize 
 
 def texts_to_sentiment(texts_file, sentiment_dict_file, text_column = 0):
-	texts_df = pd.read_csv(texts_file, header=None)
+	texts_df = pd.read_csv(texts_file, header=0)
 	sentiment_df = pd.read_csv(sentiment_dict_file, index_col=0)
 	
 	doc_sentiment_matrix = []
