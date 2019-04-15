@@ -7,8 +7,8 @@ import sys
 csr_dot = scipy.sparse.csr_matrix.dot
 
 def compute_gradient(density_matrix, projectors, term_frequencies):
-	gradient = np.zeros(density_matrix.shape)
-	gradient = scipy.sparse.csr_matrix(gradient)
+	#gradient = np.zeros(density_matrix.shape)
+	gradient = scipy.sparse.csr_matrix(density_matrix.shape)
 	for i in range(len(projectors)):
 		projector = projectors[i]
 		tf = term_frequencies[i]
@@ -59,8 +59,9 @@ def gqlm(projectors, term_frequencies, t = 0.5):
 	
 	diagonal_entries = np.random.rand(num_words)
 	diagonal_entries /= np.sum(diagonal_entries)
-	density_matrix = np.diag(diagonal_entries)
-	density_matrix = scipy.sparse.csr_matrix(density_matrix)
+	#density_matrix = np.diag(diagonal_entries)
+	#density_matrix = scipy.sparse.csr_matrix(density_matrix)
+	density_matrix = scipy.sparse.diags(diagonal_entries)
 
 	old_obj = compute_objective(density_matrix, projectors)
 	print(old_obj)
@@ -90,7 +91,7 @@ def document_term_matrix_to_density_matrices(file_name):
 	density_matrices = []
 	
 	for doc_idx in range(num_documents):
-		print("doc {}".format(doc_idx))
+		print("doc {} / {}".format(doc_idx, num_documents))
 		cx = scipy.sparse.coo_matrix(document_term_matrix[doc_idx])
 		tf = []
 		projectors = []
@@ -99,8 +100,7 @@ def document_term_matrix_to_density_matrices(file_name):
 			tf.append(v)
 			#pr = np.zeros((num_words,num_words))
 			#pr[j][j] = 1
-			pr = scipy.sparse.coo_matrix(([1], ([j], [j])), shape=[num_words, num_words])
-			pr = scipy.sparse.csr_matrix(pr)
+			pr = scipy.sparse.csr_matrix(([1], ([j], [j])), shape=[num_words, num_words])
 			projectors.append(pr)
 			
 		dm = gqlm(projectors, tf)
