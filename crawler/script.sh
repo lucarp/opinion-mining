@@ -6,7 +6,7 @@ const path = require('path');
 
 base_url = "https://api.twitter.com/1.1/search/tweets.json";
 
-next_results = '?q=abortion&result_type=recent&count=100&lang=en';
+next_results = '?q=abortion&result_type=recent&count=100&lang=en&tweet_mode=extended';
 
 count = 0;
 
