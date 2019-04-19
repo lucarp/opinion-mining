@@ -6,12 +6,14 @@ const path = require('path');
 
 base_url = "https://api.twitter.com/1.1/search/tweets.json";
 
-next_results = '?q=abortion&result_type=recent&count=100&lang=en&tweet_mode=extended';
+//#next_results = '?q=abortion&result_type=recent&count=100&lang=en';
+//# continue from 1555598373746.json 
+next_results = "?max_id=1116781854865051647&q=abortion&lang=en&count=100&include_entities=1&result_type=recent";
 
 count = 0;
 
 function downloadTweets() {
-    axios.get(base_url + next_results, { headers: { Authorization: "Bearer AAAAAAAAAAAAAAAAAAAAAEjJagAAAAAA0UzkV1bBRIw43tlOy2kcxD1gwjI%3DckBntGor8t9SaInHwnyXqpGgciUzJ7f8FFQFNO1tDszU0p6Ds6" } })
+    axios.get(base_url + next_results + '&tweet_mode=extended', { headers: { Authorization: "Bearer AAAAAAAAAAAAAAAAAAAAAEjJagAAAAAA0UzkV1bBRIw43tlOy2kcxD1gwjI%3DckBntGor8t9SaInHwnyXqpGgciUzJ7f8FFQFNO1tDszU0p6Ds6" } })
     .then(response => {
         count++;
         console.log('Trying to download package',count); 
