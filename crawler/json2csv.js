@@ -23,7 +23,11 @@ function processDownload() {
                 status.entities.hashtags.map(function(ht){
                     hashtags.push(ht.text);
                 });
-                statuses+=`${status.created_at}\t${status.id_str}\t${status.full_text.replace(/\r?\n|\r/g, ' ').replace('\t', ' ').replace(punctuationRegEx,' ')}\t${hashtags.join(',')}\t${status.user.location}\n`;
+                if(status.retweeted_status == undefined) {
+                    statuses+=`${status.created_at}\t${status.id_str}\t${status.full_text.replace(/\r?\n|\r/g, ' ').replace('\t', ' ').replace(punctuationRegEx,' ')}\t${hashtags.join(',')}\t${status.user.location}\n`;
+                } else{
+                    statuses+=`${status.created_at}\t${status.id_str}\t${status.retweeted_status.full_text.replace(/\r?\n|\r/g, ' ').replace('\t', ' ').replace(punctuationRegEx,' ')}\t${hashtags.join(',')}\t${status.user.location}\n`;
+                }
             })
             // fs.unlink(path.join(directoryPath, file), err => {
             //     if (err) throw err;

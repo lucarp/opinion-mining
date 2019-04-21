@@ -104,6 +104,7 @@ def document_term_matrix_to_density_matrices(file_name):
 			projectors.append(pr)
 			
 		dm = gqlm(projectors, tf)
+		scipy.io.savemat("mat_files/density_matrices/doc_"+str(doc_idx)+".mat", {'X' : dm})
 		density_matrices.append(dm)
 			
 	return density_matrices
