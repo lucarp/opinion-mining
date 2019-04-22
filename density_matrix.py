@@ -124,4 +124,4 @@ if __name__ == '__main__':
 	print(dm)"""
 	
 	dms = document_term_matrix_to_density_matrices(sys.argv[1])
-	scipy.io.savemat("density_matrices.mat", {'X' : dms})
+	scipy.io.savemat(sys.argv[1]+"_density_matrices.mat", {'X' : dms})

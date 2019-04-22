@@ -71,4 +71,4 @@ if __name__ == "__main__":
 	for row in doc_sentiment_matrix:
 		label = 1. if row[0] > row[1] else 0. if row[0] < row[1] else 0.5
 		doc_label.append(label)
-	pd.DataFrame(doc_label).to_csv("lexicon_sentiment_analysis_res.csv", index=False)
+	pd.DataFrame(doc_label).to_csv(sys.argv[1]+"lexicon_sentiment.csv")
