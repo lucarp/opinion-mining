@@ -2,44 +2,50 @@ import sys
 import re
 import pandas as pd
 import numpy as np
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from nltk.stem import WordNetLemmatizer 
 from nltk.tokenize import word_tokenize
 from collections import Counter
 import emoji
 
-# TODO adapt the function below to the project context
+
+
 def countWordsOnReviews(df):
 	wordCounter = Counter()
-	for review in df['Review']:
+	for i, row in df.iterrows():
+		review = row["0"]
 		for word in word_tokenize(review):
 			wordCounter[word] +=1
-	
+
 	return wordCounter
 
-# TODO adapt the function below to the project context
 def cleanseData(df, threshold, vocab_file_out, vocab):
 	print('Vocabulary size: ' + str(len(vocab)))
 	f = open(vocab_file_out, 'w' )
 	f.write(repr(vocab))
 	f.close()
 	new_df_review = []
-	for review in df['Review']:
+	for i, row in df.iterrows():
+		review = row["0"]
 		new_review = []
 		for word in word_tokenize(review):
 			if word in vocab:
 				new_review.append(word)
 		review = ' '.join(new_review)
 		new_df_review.append(review)
-	new_df_review = pd.DataFrame(new_df_review, columns=['Review'])
-	df.drop(['Review'], 1, inplace=True)
-	df.reset_index(inplace=True, drop=True)   
-	df = pd.concat([df, new_df_review], axis=1)
+		
+	df = pd.DataFrame(new_df_review, columns=['Review'])	
 	return df,vocab
 
 def cleanseData_below_threshold(df, threshold, vocab_file_out):
-	counter = countWordsOnReviews(df)	
+	counter = countWordsOnReviews(df)
 	vocab = {x : counter[x] for x in counter if counter[x] >= threshold}
 	return cleanseData(df, threshold, vocab_file_out, vocab)
+	
+def cleanAndSaveData(fileNameIn, fileNameOut, threshold, vocab_file_out):
+    df = pd.read_csv(fileNameIn, header=0, index_col=0)
+    df,vocab = cleanseData_below_threshold(df, threshold, vocab_file_out)
+    df.to_csv(fileNameOut)
 
 def preprocessDataset(file_name):
 	df = pd.read_csv(file_name, sep="\t", usecols = [0, 1, 2, 3, 4])
@@ -103,4 +109,6 @@ def preprocess(words):
 	return ' '.join(str(x) for x in new_words)
 	
 if __name__ == '__main__':
-	preprocessDataset(sys.argv[1])
+	#preprocessDataset(sys.argv[1])
+
+	cleanAndSaveData(sys.argv[1], sys.argv[2], int(sys.argv[3]), sys.argv[4])	
