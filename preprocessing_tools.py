@@ -63,7 +63,7 @@ def preprocessDataset(file_name):
 		if not text in found:
 			print("{} \n {}".format(i, text))
 			found[text] = i
-			text = emoji.demojize(text) # TODO - not working
+			text = emoji.demojize(text) 
 			text = re.sub("^RT", "", text)
 			text = preprocess(word_tokenize(text))
 			frames.append(text)

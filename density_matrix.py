@@ -64,7 +64,7 @@ def gqlm(projectors, term_frequencies, t = 0.5):
 	density_matrix = scipy.sparse.diags(diagonal_entries)
 
 	old_obj = compute_objective(density_matrix, projectors)
-	print(old_obj)
+	#print(old_obj)
 
 	i = 0	
 	stop_criterion = False	
@@ -73,7 +73,7 @@ def gqlm(projectors, term_frequencies, t = 0.5):
 		density_matrix += delta
 		
 		obj = compute_objective(density_matrix, projectors)
-		print(obj)
+		#print(obj)
 		stop_criterion = abs(obj - old_obj) <= epsilon
 		old_obj = obj
 		
