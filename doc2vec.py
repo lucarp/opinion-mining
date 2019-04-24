@@ -7,7 +7,7 @@ def train_dataset(reviews):
 		yield gensim.models.doc2vec.TaggedDocument(item['Review'].split(' '), [idx])
 
 
-def doc2Vec(file_name, vec_size = 50):
+def doc2Vec(file_name, vec_size = 100):
 	texts_df = pd.read_csv(file_name, header=0, index_col=0)
 
 	num_documents = texts_df.shape[0]

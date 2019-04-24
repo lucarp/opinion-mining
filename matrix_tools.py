@@ -116,7 +116,7 @@ def text_to_sppmi_context_matrix(texts_file):
 ======= MAIN =======
 """	
 if __name__ == '__main__':
-	"""# BOW
+	# BOW
 	print("csv to bow...")
 	df, X = file_to_bow(sys.argv[1])
 	print("save mat file...")
@@ -126,11 +126,11 @@ if __name__ == '__main__':
 	print("csv to tf-idf...")
 	df, X = file_to_tfidf_l2(sys.argv[1])
 	print("save mat file...")
-	scipy.io.savemat(sys.argv[1]+"_tf-idf-l2.mat", {'X' : X})"""
+	scipy.io.savemat(sys.argv[1]+"_tf-idf-l2.mat", {'X' : X})
 
 	# Context Matrix with Co-Occurence Matrix
-	"""sppmi_context_matrix = text_to_sppmi_context_matrix(sys.argv[1])
-	scipy.io.savemat(sys.argv[1]+"_sppmi_context_matrix.mat", {'X' : sppmi_context_matrix})"""
+	sppmi_context_matrix = text_to_sppmi_context_matrix(sys.argv[1])
+	scipy.io.savemat(sys.argv[1]+"_sppmi_context_matrix.mat", {'X' : sppmi_context_matrix})
 	
 	# Get vocabulary
 	df, X = file_to_bow(sys.argv[1])

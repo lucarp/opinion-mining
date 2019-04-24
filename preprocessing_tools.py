@@ -35,6 +35,8 @@ def cleanseData(df, threshold, vocab_file_out, vocab):
 			if word in vocab:
 				new_review.append(word)
 		review = ' '.join(new_review)
+		if text != text or text == '':
+				continue
 		new_df_review.append(review)
 		
 	df = pd.DataFrame(new_df_review, columns=['Review'])	
@@ -55,24 +57,28 @@ def preprocessDataset(file_name):
 	
 	frames = []
 	found = {}
-	
-	#old_frame = None
+	found_full = {}
 	
 	for i, row in df.iterrows():
 		text = row["full_text"]
 		if text != text: # test if NaN
 			continue
+
+		if not text in found_full:
+			found_full[text] = i
+			text = emoji.demojize(text)
+			text = re.sub("^RT", "", text)
+			text = re.sub("http.*", "", text)			
+			text = preprocess(word_tokenize(text))
+			
+			if text != text or text == '':
+				continue
 		
-		#print("{} \n {}".format(i, text))
-		text = emoji.demojize(text)
-		text = re.sub("^RT", "", text)
-		text = preprocess(word_tokenize(text))
-		
-		if not text in found:		
-			print(i)	
-			#print(text)	
-			found[text] = i
-			frames.append(text)
+			if not text in found:		
+				print(i)	
+				#print(text)	
+				found[text] = i
+				frames.append(text)
 			
 	df = pd.DataFrame(frames)
 	print(df.shape)	
@@ -101,9 +107,6 @@ def preprocess(words):
 
 		# Remove stop words
 		if temp in stopwords.words('english'):
-			continue
-			
-		if not wordnet.synsets(temp):
 			continue
 			
 		# Lemmatization

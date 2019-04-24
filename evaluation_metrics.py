@@ -3,8 +3,10 @@ from sklearn import metrics
 import pandas as pd
 import numpy as np
 
-X = pd.read_csv(sys.argv[1], header=0, index_col=0)
-X = np.matrix(X)
+#X = pd.read_csv(sys.argv[1], header=0, index_col=0)
+#X = np.matrix(X)
+X = io.loadmat(sys.argv[1])['X']
+X = X.todense()
 print(X.shape)
 labels = pd.read_csv(sys.argv[2], header=0, index_col=0)
 labels = np.ravel(np.matrix(labels))
