@@ -1,0 +1,46 @@
+\begin{table}[H] \label{tab:lexicon_pos_neg}
+\centering
+\begin{tabular}{|c|c|c|}
+  \hline
+  Method & Positive & Negative \\
+  \hline
+  Lexicon-based & 54722 & 42660\\
+  \hline
+\end{tabular}
+\captionsetup{width=0.4\textwidth}
+\caption{Sentiment analysis results with lexicon-based approach.}
+\end{table}
+
+
+
+\begin{table}[H] \label{tab:doc2vec_pos_neg}
+\centering
+\begin{tabular}{|c|c|c|}
+  \hline
+  Method & Positive & Negative \\
+  \hline
+  K-Means & 66266 & 31116 \\
+  Spherical K-Means & 50174 & 47208 \\
+  NMTF & 64552 & 32830 \\
+  \hline
+\end{tabular}
+\captionsetup{width=0.4\textwidth}
+\caption{Sentiment analysis results for each method with Doc2Vec.}
+\end{table}
+
+
+
+\begin{table}[H] \label{tab:eval_tf_idf}
+\centering
+\begin{tabular}{|c|c|c|c|}
+  \hline
+  Method & SC & CHI & DBI\\
+  \hline
+  K-Means & 0.035 & 1651 & \textbf{6.662}\\
+  Spherical K-Means & \textbf{0.044} & \textbf{1912} & 6.914\\
+  NMTF & 0.006 & 201.5 & 20.22 \\
+  \hline
+\end{tabular}
+\captionsetup{width=0.4\textwidth}
+\caption{Clustering evaluation with Doc2Vec.}
+\end{table}

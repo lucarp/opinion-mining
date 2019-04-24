@@ -5,6 +5,7 @@ import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from nltk.stem import WordNetLemmatizer 
 from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
 from collections import Counter
 import emoji
 
@@ -61,7 +62,8 @@ def preprocessDataset(file_name):
 			continue
 		
 		if not text in found:
-			print("{} \n {}".format(i, text))
+			#print("{} \n {}".format(i, text))
+			print(i)
 			found[text] = i
 			text = emoji.demojize(text)
 			text = re.sub("^RT", "", text)
@@ -74,7 +76,7 @@ def preprocessDataset(file_name):
 	df = pd.DataFrame(frames)
 	print(df.shape)	
 
-	df.to_csv('tweets_without_clean.csv')
+	df.to_csv('tweets_no_clean.csv')
 
 def preprocess(words):
 	new_words = []
@@ -97,8 +99,8 @@ def preprocess(words):
 			continue
 
 		# Remove stop words
-		"""if temp in selected_stopwords:
-			continue"""
+		if temp in stopwords.words('english'):
+			continue
 			
 		# Lemmatization
 		#temp = lemmatizer.lemmatize(temp, get_wordnet_pos(temp)) # complete lemmatization but slow
@@ -109,6 +111,6 @@ def preprocess(words):
 	return ' '.join(str(x) for x in new_words)
 	
 if __name__ == '__main__':
-	preprocessDataset(sys.argv[1])
+	#preprocessDataset(sys.argv[1])
 
-	#cleanAndSaveData(sys.argv[1], sys.argv[2], int(sys.argv[3]), sys.argv[4])	
+	cleanAndSaveData(sys.argv[1], sys.argv[2], int(sys.argv[3]), sys.argv[4])	

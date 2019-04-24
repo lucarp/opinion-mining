@@ -80,7 +80,7 @@ if __name__ == "__main__":
 	for row in doc_sentiment_matrix:
 		label = 1. if row[0] >= row[1] else 0.		
 		doc_label.append(label)
-		label = 1. if row[0] > row[1] else 0. if row[0] > row[1] else 0.5
+		label = 1. if row[0] > row[1] else 0. if row[0] < row[1] else 0.5
 		doc_label_neu.append(label)
 	pd.DataFrame(doc_label).to_csv(sys.argv[1]+"_lexicon_sentiment_pos_neg.csv")
 	pd.DataFrame(doc_label_neu).to_csv(sys.argv[1]+"_lexicon_sentiment.csv")	

@@ -107,6 +107,7 @@ def sppmi_context_matrix(matrix, N = 2):
 
 def text_to_sppmi_context_matrix(texts_file):
 	co_occurence_matrix = text_to_co_occurence_matrix(texts_file)
+	print("make sppmi context matrix...")
 	return sppmi_context_matrix(co_occurence_matrix)
 	
 	
@@ -115,14 +116,14 @@ def text_to_sppmi_context_matrix(texts_file):
 ======= MAIN =======
 """	
 if __name__ == '__main__':
-	# BOW
-	"""print("csv to bow...")
+	"""# BOW
+	print("csv to bow...")
 	df, X = file_to_bow(sys.argv[1])
 	print("save mat file...")
-	scipy.io.savemat(sys.argv[1]+"_bow.mat", {'X' : X})"""
+	scipy.io.savemat(sys.argv[1]+"_bow.mat", {'X' : X})
 
 	# TF-IDF L2
-	"""print("csv to tf-idf...")
+	print("csv to tf-idf...")
 	df, X = file_to_tfidf_l2(sys.argv[1])
 	print("save mat file...")
 	scipy.io.savemat(sys.argv[1]+"_tf-idf-l2.mat", {'X' : X})"""
