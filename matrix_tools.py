@@ -19,7 +19,6 @@ def file_to_data(file_name):
 	
 	return docs, meta_data
 
-# TODO - adapt the function below to the project context
 # Returns dataFrame from docs and meta_data
 def data_to_dataFrame(docs, meta_data, vectorizer):
 	X = vectorizer.fit_transform(docs) # sparse data

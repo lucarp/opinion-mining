@@ -3,7 +3,6 @@ setwd("/media/matthieu/Data/Matthieu/##Etude/#M1/S2/BD2/opinion-mining")
 library(aricode)
 library(R.matlab)
 library(skmeans)
-library(cluster)
 
 normalize <- function(x) {x / sqrt(rowSums(x^2))}
 normalizeByCol <- function(df) { t( normalize( t(df) ) )}
@@ -36,29 +35,5 @@ write.csv(res_kmeans$cluster, "doc2vec_kmeans_clusters.csv")
 print("run spherical kmeans...")
 res_skmeans <- skmeans(mat_df, k, control = list(verbose = TRUE))
 write.csv(res_skmeans$cluster, "doc2vec_skmeans_clusters.csv")
-
-# ----------------------------------------
-
-
-
-# -------------- Analysis --------------
-
-kmeans_cluster = read.csv("results/doc2vec_kmeans_clusters.csv")
-
-kmeans_ind1 = which(kmeans_cluster == 1)
-kmeans_ind2 = which(kmeans_cluster == 2)
-
-length(kmeans_cluster[kmeans_ind1])
-length(kmeans_cluster[kmeans_ind2])
-
-
-
-skmeans_cluster = read.csv("results/doc2vec_skmeans_clusters.csv")
-
-skmeans_ind1 = which(skmeans_cluster == 1)
-skmeans_ind2 = which(skmeans_cluster == 2)
-
-length(skmeans_cluster[skmeans_ind1])
-length(skmeans_cluster[skmeans_ind2])
 
 # ----------------------------------------

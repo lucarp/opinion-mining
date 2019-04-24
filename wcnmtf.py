@@ -4,7 +4,7 @@ from scipy import io
 import scipy
 import scipy.sparse
 import pandas as pd
-from preprocessing_tools import term_sentiment_matrix_to_context_matrix, sppmi_context_matrix
+#from preprocessing_tools import term_sentiment_matrix_to_context_matrix, sppmi_context_matrix
 from sklearn.preprocessing import normalize
 
 def compute_loss(X, M, Z, S, W, Q, l_reg):
@@ -96,6 +96,8 @@ if __name__ == '__main__':
 	M = io.loadmat(sys.argv[2])
 	M = scipy.sparse.csr_matrix.todense(M['X'])
 	M = normalize(X)	
+	
+	#M = scipy.sparse.csr_matrix((X.shape [1], X.shape[1]))
 
 	g = int(sys.argv[3])
 	m = int(sys.argv[4])
