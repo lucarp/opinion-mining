@@ -108,6 +108,39 @@ def document_term_matrix_to_density_matrices(file_name):
 		density_matrices.append(dm.diagonal())
 			
 	return density_matrices
+	
+def word2vec_to_density_matrices(document_term_file, word2vec_file):
+	document_term_matrix = io.loadmat(file_name)
+	document_term_matrix = document_term_matrix['X']
+	
+	word2Vec_df = pd.read_csv(word2vec_file, index_col = 0)
+	
+	num_documents = document_term_matrix.shape[0]
+	num_words = document_term_matrix.shape[1]
+	
+	density_matrices = []
+	
+	for doc_idx in range(num_documents):
+		print("doc {} / {}".format(doc_idx, num_documents))
+		cx = scipy.sparse.coo_matrix(document_term_matrix[doc_idx])
+		tf = []
+		projectors = []
+		for i,j,v in zip(cx.row, cx.col, cx.data):
+			#print(doc_idx,j,v)
+			tf.append(v)
+			#pr = np.zeros((num_words,num_words))
+			#pr[j][j] = 1
+			#pr = scipy.sparse.csr_matrix(([1], ([j], [j])), shape=[num_words, num_words])
+			vec = np.matrix(word2Vec_df.iloc[j])
+			pr = np.dot(vec.T, vec)
+			pr = scipy.sparse.csr_matrix(pr)
+			projectors.append(pr)
+			
+		dm = gqlm(projectors, tf)
+		#scipy.io.savemat("mat_files/density_matrices/doc_"+str(doc_idx)+".mat", {'X' : dm})
+		density_matrices.append(dm.diagonal())
+			
+	return density_matrices
 
 if __name__ == '__main__':
 	"""projectors = []
@@ -123,5 +156,6 @@ if __name__ == '__main__':
 	dm = gqlm(projectors, tf)
 	print(dm)"""
 	
-	dms = document_term_matrix_to_density_matrices(sys.argv[1])
+	#dms = document_term_matrix_to_density_matrices(sys.argv[1])
+	dms = word2vec_to_density_matrices(sys.argv[1] sys.argv[2])
 	scipy.io.savemat(sys.argv[1]+"_density_matrices.mat", {'X' : dms})

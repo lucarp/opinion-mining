@@ -15,7 +15,7 @@ def word2Vec(file_name, vec_size = 100):
 	print("make corpus...")
 	train_corpus = train_dataset(texts_df)
 
-	model = gensim.models.Word2Vec(size=vec_size, iter = 500)
+	model = gensim.models.Word2Vec(size=vec_size, iter = 1)
 	model.build_vocab(train_corpus)
 	print("training...")
 	model.train(train_corpus, total_examples=len(train_corpus), epochs=model.epochs)
