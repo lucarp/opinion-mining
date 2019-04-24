@@ -9,6 +9,8 @@ from nltk.corpus import stopwords
 from collections import Counter
 import emoji
 
+from nltk.corpus import wordnet
+
 
 
 def countWordsOnReviews(df):
@@ -61,17 +63,16 @@ def preprocessDataset(file_name):
 		if text != text: # test if NaN
 			continue
 		
-		if not text in found:
-			#print("{} \n {}".format(i, text))
-			print(i)
+		#print("{} \n {}".format(i, text))
+		text = emoji.demojize(text)
+		text = re.sub("^RT", "", text)
+		text = preprocess(word_tokenize(text))
+		
+		if not text in found:		
+			print(i)	
+			#print(text)	
 			found[text] = i
-			text = emoji.demojize(text)
-			text = re.sub("^RT", "", text)
-			text = preprocess(word_tokenize(text))
 			frames.append(text)
-		"""else:
-			print(found[text])
-			input()"""
 			
 	df = pd.DataFrame(frames)
 	print(df.shape)	
@@ -102,6 +103,9 @@ def preprocess(words):
 		if temp in stopwords.words('english'):
 			continue
 			
+		if not wordnet.synsets(temp):
+			continue
+			
 		# Lemmatization
 		#temp = lemmatizer.lemmatize(temp, get_wordnet_pos(temp)) # complete lemmatization but slow
 		temp = lemmatizer.lemmatize(temp) # fast lemmatization but not perfect
@@ -111,6 +115,6 @@ def preprocess(words):
 	return ' '.join(str(x) for x in new_words)
 	
 if __name__ == '__main__':
-	#preprocessDataset(sys.argv[1])
+	preprocessDataset(sys.argv[1])
 
-	cleanAndSaveData(sys.argv[1], sys.argv[2], int(sys.argv[3]), sys.argv[4])	
+	#cleanAndSaveData(sys.argv[1], sys.argv[2], int(sys.argv[3]), sys.argv[4])	

@@ -10,8 +10,6 @@ labels = pd.read_csv(sys.argv[2], header=0, index_col=0)
 labels = np.ravel(np.matrix(labels))
 print(labels.shape)
 
-input()
-
 print("compute silhouette_score...")
 sc = metrics.silhouette_score(X, labels)
 print("compute silhouette_score (cosine)...")

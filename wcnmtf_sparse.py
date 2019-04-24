@@ -90,7 +90,7 @@ if __name__ == '__main__':
 	
 	print("Usage: {} X_mat_file M_mat_file g m lambda iter_lamba_x10".format(sys.argv[0]))
 	
-	X = io.loadmat(sys.argv[1])
+	X = io.loadmat(sys.argv[1])['X']
 	
 	#X = scipy.sparse.csr_matrix.todense(X['X'])
 	#X = normalize(X)
