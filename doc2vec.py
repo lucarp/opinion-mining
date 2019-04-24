@@ -15,7 +15,7 @@ def doc2Vec(file_name, vec_size = 50):
 	print("make corpus...")
 	train_corpus = list(train_dataset(texts_df))
 
-	model = gensim.models.doc2vec.Doc2Vec(vector_size=vec_size, epochs = 500)
+	model = gensim.models.doc2vec.Doc2Vec(vector_size=vec_size, epochs = 2000)
 	model.build_vocab(train_corpus)
 	print("training...")
 	model.train(train_corpus, total_examples=model.corpus_count, epochs=model.epochs)

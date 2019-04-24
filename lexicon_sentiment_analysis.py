@@ -47,6 +47,7 @@ def texts_to_sentiment(texts_file, sentiment_dict_file, emoji_sentiment_dict_fil
 	
 	print("iterate through all the texts...")
 	# Iterate through all the texts
+	found = {}
 	for _, row in texts_df.iterrows():
 		temp = [0.,0.,0.]
 		text = row[text_column]
@@ -59,16 +60,27 @@ def texts_to_sentiment(texts_file, sentiment_dict_file, emoji_sentiment_dict_fil
 			if word in dict_emoji_sentiment_matrix:
 				sent_vec = dict_emoji_sentiment_matrix[word]
 				temp = np.add(temp, sent_vec)
+			if word in dict_term_sentiment_matrix and word in dict_emoji_sentiment_matrix:
+				temp /= 2
+			if word in dict_term_sentiment_matrix or word in dict_emoji_sentiment_matrix:
+				found[word] = 1
 				
 		doc_sentiment_matrix.append(temp)	
+	
+	print(len(found))
 	
 	return doc_sentiment_matrix
 		
 if __name__ == "__main__":
 	#text_column = 4
 	doc_sentiment_matrix = texts_to_sentiment(sys.argv[1], sys.argv[2], sys.argv[3]) #, text_column)
+	pd.DataFrame(doc_sentiment_matrix).to_csv(sys.argv[1]+"_doc_sentiment.csv")
 	doc_label = []
+	doc_label_neu = []
 	for row in doc_sentiment_matrix:
-		label = 1. if row[0] > row[1] else 0. if row[0] < row[1] else 0.5
+		label = 1. if row[0] >= row[1] else 0.		
 		doc_label.append(label)
-	pd.DataFrame(doc_label).to_csv(sys.argv[1]+"lexicon_sentiment.csv")
+		label = 1. if row[0] > row[1] else 0. if row[0] > row[1] else 0.5
+		doc_label_neu.append(label)
+	pd.DataFrame(doc_label).to_csv(sys.argv[1]+"_lexicon_sentiment_pos_neg.csv")
+	pd.DataFrame(doc_label_neu).to_csv(sys.argv[1]+"_lexicon_sentiment.csv")	
