@@ -7,6 +7,8 @@ import pandas as pd
 #from preprocessing_tools import term_sentiment_matrix_to_context_matrix, sppmi_context_matrix
 from sklearn.preprocessing import normalize
 
+
+
 def compute_loss(X, M, Z, S, W, Q, l_reg):
 	ZSW_T = np.dot(np.dot(Z, S), W.T)
 	WQ_T = np.dot(W, Q.T)
@@ -23,14 +25,6 @@ def wc_nmtf(X, M, g, m, l_reg = 1):
 	S = np.random.rand(g, m)
 	W = np.random.rand(d, m)
 	Q = np.random.rand(d, m)
-	
-	# To sparse
-	"""Z = scipy.sparse.csr_matrix(Z)
-	S = scipy.sparse.csr_matrix(S)
-	W = scipy.sparse.csr_matrix(W)
-	Q = scipy.sparse.csr_matrix(Q)
-	X = scipy.sparse.csr_matrix(X)
-	M = scipy.sparse.csr_matrix(M)"""
 	
 	i = 0
 	epoch = 300
@@ -65,12 +59,6 @@ def wc_nmtf(X, M, g, m, l_reg = 1):
 		i += 1
 		stop_criterion = i > epoch
 	
-	# To dense
-	"""Z = scipy.sparse.csr_matrix.todense(Z)
-	S = scipy.sparse.csr_matrix.todense(S)
-	W = scipy.sparse.csr_matrix.todense(W)
-	Q = scipy.sparse.csr_matrix.todense(Q)"""	
-	
 	loss = compute_loss(X, M, Z, S, W, Q, l_reg)	
 	
 	return {"Z": Z, "S": S, "W": W, "Q": Q, "loss": loss}
@@ -81,7 +69,7 @@ if __name__ == '__main__':
 	X = np.random.rand(n, d)
 	M = np.random.rand(d, d)"""
 	
-	print("Usage: {} X_mat_file M_csv_file g m lambda iter_lamba_x10".format(sys.argv[0]))
+	print("Usage: {} X_mat_file M_mat_file g m lambda iter_lamba_x10".format(sys.argv[0]))
 	
 	mat = io.loadmat(sys.argv[1])
 	X = scipy.sparse.csr_matrix.todense(mat['X'])
