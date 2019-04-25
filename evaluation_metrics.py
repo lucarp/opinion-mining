@@ -2,6 +2,7 @@ import sys
 from sklearn import metrics
 import pandas as pd
 import numpy as np
+from scipy import io
 
 #X = pd.read_csv(sys.argv[1], header=0, index_col=0)
 #X = np.matrix(X)

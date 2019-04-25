@@ -23,8 +23,8 @@ sent_process <- function(x){ x[1] - x[2] + 1 }
 
 k <- 2
 
-lexicon_sent <- read.csv("results/tweets_clean10.csv_lexicon_sentiment.csv")
-lexicon_sent <- read.csv("results/tweets_clean10.csv_lexicon_sentiment_pos_neg.csv", row.names = 1)
+lexicon_sent <- read.csv("result/tweets_clean10.csv_lexicon_sentiment.csv")
+lexicon_sent <- read.csv("result/tweets_clean10.csv_lexicon_sentiment_pos_neg.csv", row.names = 1)
 
 n_pos <- length(lexicon_sent[lexicon_sent == 1])
 n_neg <- length(lexicon_sent[lexicon_sent == 0])
@@ -38,16 +38,17 @@ dim(lexicon_sent)[1]
 
 # --- Lexicon based
 
-lexicon_cluster <- read.csv("results/tweets_clean10.csv_lexicon_sentiment_pos_neg.csv", row.names = 1)
+lexicon_cluster <- read.csv("result/tweets_clean10.csv_lexicon_sentiment_pos_neg.csv", row.names = 1)
 
 length(lexicon_cluster[lexicon_cluster == 1])
 length(lexicon_cluster[lexicon_cluster == 0])
 
+l_c <- unlist(lexicon_cluster, use.names=FALSE)
 
 
 # --- K-Means
 
-kmeans_cluster = read.csv("results/doc2vec_kmeans_clusters.csv", row.names = 1)
+kmeans_cluster = read.csv("result/doc2vec_kmeans_clusters_50.csv", row.names = 1)
 
 kmeans_ind1 = which(kmeans_cluster == 1)
 kmeans_ind2 = which(kmeans_cluster == 2)
@@ -55,11 +56,16 @@ kmeans_ind2 = which(kmeans_cluster == 2)
 length(kmeans_cluster[kmeans_ind1,])
 length(kmeans_cluster[kmeans_ind2,])
 
+k_c <- unlist(kmeans_cluster, use.names=FALSE)
+
+NMI(k_c, l_c)
+ARI(k_c, l_c)
+
 
 
 # --- Spherical K-Means
 
-skmeans_cluster = read.csv("results/doc2vec_skmeans_clusters.csv", row.names = 1)
+skmeans_cluster = read.csv("result/doc2vec_skmeans_clusters_50.csv", row.names = 1)
 
 skmeans_ind1 = which(skmeans_cluster == 1)
 skmeans_ind2 = which(skmeans_cluster == 2)
@@ -68,20 +74,32 @@ length(skmeans_cluster[skmeans_ind1,])
 length(skmeans_cluster[skmeans_ind2,])
 
 
-NMI(skmeans_cluster, lexicon_cluster)
-ARI(skmeans_cluster, lexicon_cluster)
+sk_c <- unlist(skmeans_cluster, use.names=FALSE)
+
+NMI(sk_c, l_c)
+ARI(sk_c, l_c)
 
 
 
 # --- WC-NMTF / NTMTF
 
-wcnmtf_cluster = read.csv("results/doc2vec_wc_nmtf_clusters.csv", row.names = 1)
+#wcnmtf_res = read.csv("result/doc2vec_wc-nmtf_Z_l1.0.csv")
+#wcnmtf_cluster = apply(wcnmtf_res, MARGIN = 1, FUN = which.max)
+#write.csv(wcnmtf_cluster, "result/doc2vec_wc_nmtf_clusters.csv")
+
+wcnmtf_cluster = read.csv("result/doc2vec_wc_nmtf_clusters.csv", row.names = 1)
 
 wcnmtf_ind1 = which(wcnmtf_cluster == 1)
 wcnmtf_ind2 = which(wcnmtf_cluster == 2)
 
 length(wcnmtf_cluster[wcnmtf_ind1,])
 length(wcnmtf_cluster[wcnmtf_ind2,])
+
+
+nmtf_c <- unlist(wcnmtf_cluster, use.names=FALSE)
+
+NMI(nmtf_c, l_c)
+ARI(nmtf_c, l_c)
 
 # ----------------------------------------
 

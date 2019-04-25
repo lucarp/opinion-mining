@@ -13,12 +13,14 @@ sent_process <- function(x){ x[1] - x[2] + 1 }
 X <- readMat("dataset/mat_files/tweets_clean10.csv_tf-idf-l2.mat")
 df <- X$X
 
-df <- read.csv("dataset/tweets_clean10.csv_doc2Vec.csv", header = TRUE, row.names = 1)
+#df <- read.csv("dataset/tweets_clean10.csv_doc2Vec_50.csv", header = TRUE, row.names = 1)
 
 dim(df)
 mat_df <- as.matrix(df)
 mat_df <- normalize(mat_df)
 dim(mat_df)
+
+#mat_df[(rowSums(mat_df) == 0), 1] = 1
 
 # ----------------------------------------
 
