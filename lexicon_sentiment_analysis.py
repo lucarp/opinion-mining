@@ -4,14 +4,11 @@ import sys
 import re
 from nltk.tokenize import word_tokenize 
 
-def texts_to_sentiment(texts_file, sentiment_dict_file, emoji_sentiment_dict_file, text_column = 0):
-	texts_df = pd.read_csv(texts_file, header=0, index_col=0)
+
+
+def make_dict_term_sentiment_matrix(sentiment_dict_file):
 	sentiment_df = pd.read_csv(sentiment_dict_file, index_col=0)
-	emoji_sentiment_df = pd.read_csv(emoji_sentiment_dict_file, index_col=0)
-	
-	doc_sentiment_matrix = []
 	dict_term_sentiment_matrix = {}
-	dict_emoji_sentiment_matrix = {}
 
 	print("make term dictionary...")
 	# TERM DICTIONARY - Iterate through all sentiment words in the dictionary	
@@ -29,6 +26,12 @@ def texts_to_sentiment(texts_file, sentiment_dict_file, emoji_sentiment_dict_fil
 		# TODO - save this dict to avoid to compute it every time
 		dict_term_sentiment_matrix[sent_word] = (pos, neg, neu)
 		
+	return dict_term_sentiment_matrix
+	
+def make_dict_emoji_sentiment_matrix(emoji_sentiment_dict_file):
+	emoji_sentiment_df = pd.read_csv(emoji_sentiment_dict_file, index_col=0)
+	dict_emoji_sentiment_matrix = {}
+
 	print("make emoji dictionary...")
 	# EMOJI DICTIONARY - Iterate through all sentiment emojis in the dictionary
 	for _, sent_vec in emoji_sentiment_df.iterrows():
@@ -43,7 +46,16 @@ def texts_to_sentiment(texts_file, sentiment_dict_file, emoji_sentiment_dict_fil
 		neu = float(sent_vec[4]/total)
 
 		# TODO - save this dict to avoid to compute it every time
-		dict_emoji_sentiment_matrix[sent_emoji] = (pos, neg, neu)		
+		dict_emoji_sentiment_matrix[sent_emoji] = (pos, neg, neu)
+		
+	return dict_emoji_sentiment_matrix
+
+def texts_to_sentiment(texts_file, sentiment_dict_file, emoji_sentiment_dict_file, text_column = 0):
+	texts_df = pd.read_csv(texts_file, header=0, index_col=0)
+	
+	doc_sentiment_matrix = []
+	dict_term_sentiment_matrix = make_dict_term_sentiment_matrix(sentiment_dict_file)
+	dict_emoji_sentiment_matrix = make_dict_emoji_sentiment_matrix(emoji_sentiment_dict_file)
 	
 	print("iterate through all the texts...")
 	# Iterate through all the texts
