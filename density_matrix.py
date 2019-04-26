@@ -3,6 +3,7 @@ from math import log
 import scipy
 from scipy import io
 import sys
+import pandas as pd
 
 csr_dot = scipy.sparse.csr_matrix.dot
 
@@ -110,7 +111,7 @@ def document_term_matrix_to_density_matrices(file_name):
 	return density_matrices
 	
 def word2vec_to_density_matrices(document_term_file, word2vec_file):
-	document_term_matrix = io.loadmat(file_name)
+	document_term_matrix = io.loadmat(document_term_file)
 	document_term_matrix = document_term_matrix['X']
 	
 	word2Vec_df = pd.read_csv(word2vec_file, index_col = 0)
@@ -157,5 +158,5 @@ if __name__ == '__main__':
 	print(dm)"""
 	
 	#dms = document_term_matrix_to_density_matrices(sys.argv[1])
-	dms = word2vec_to_density_matrices(sys.argv[1] sys.argv[2])
+	dms = word2vec_to_density_matrices(sys.argv[1], sys.argv[2])
 	scipy.io.savemat(sys.argv[1]+"_density_matrices.mat", {'X' : dms})

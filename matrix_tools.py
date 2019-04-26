@@ -128,11 +128,11 @@ if __name__ == '__main__':
 	print("save mat file...")
 	scipy.io.savemat(sys.argv[1]+"_tf-idf-l2.mat", {'X' : X})
 
-	# Context Matrix with Co-Occurence Matrix
-	sppmi_context_matrix = text_to_sppmi_context_matrix(sys.argv[1])
-	scipy.io.savemat(sys.argv[1]+"_sppmi_context_matrix.mat", {'X' : sppmi_context_matrix})
-	
 	# Get vocabulary
 	df, X = file_to_bow(sys.argv[1])
 	vocab = df.columns.values
 	pd.DataFrame(vocab).to_csv(sys.argv[1]+"_vocabulary.csv")
+
+	# Context Matrix with Co-Occurence Matrix
+	sppmi_context_matrix = text_to_sppmi_context_matrix(sys.argv[1])
+	scipy.io.savemat(sys.argv[1]+"_sppmi_context_matrix.mat", {'X' : sppmi_context_matrix})
